@@ -1,0 +1,37 @@
+{
+  "n": 129,
+  "n_early": 98,
+  "n_late": 31,
+  "tranche_rule": "patient number R01-128 and above is the later release",
+  "n_hvg": 2000,
+  "patients_per_dim": 5,
+  "n_folds": 5,
+  "early": {
+    "n": 98,
+    "working_dim_genomic": 19,
+    "working_dim_imaging": 19,
+    "n_components": 12,
+    "R1_cv": 0.04639346929834474,
+    "R1_insample": 0.5291525776191708
+  },
+  "late": {
+    "n": 31,
+    "working_dim_genomic": 6,
+    "working_dim_imaging": 6,
+    "n_components": 6,
+    "R1_cv": 0.3537884301066372,
+    "R1_insample": 0.7422361500174595
+  },
+  "pooled": {
+    "n": 129,
+    "working_dim_genomic": 25,
+    "working_dim_imaging": 25,
+    "n_components": 12,
+    "R1_cv": 0.11138489511675012,
+    "R1_insample": 0.5328890335608801
+  },
+  "abs_cosine_leading_genomic": 0.06790928815216896,
+  "abs_cosine_early_vs_pooled": 0.5228759636815598,
+  "abs_cosine_late_vs_pooled": 0.1599481993742916,
+  "abs_cosine_leading_genomic_shared_basis": 0.21049618672942802
+}

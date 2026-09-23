@@ -8,7 +8,8 @@ This is a statistical analysis research repository investigating information-the
 
 ## Repository Layout
 
-- `rgit/` — core Python package for the cohort pipeline (config, data loading, report). The estimator itself (`rgit/model.py`, `rgit/bounds.py`) is a re-export of the standalone `attainable-information` package at https://github.com/pachterlab/attainable_information (local checkout: `~/Desktop/attainable-information`); make estimator changes there, not here
+- `rgit/` — core Python package for the cohort pipeline (config, data loading, report). The estimator itself (`rgit/model.py`, `rgit/bounds.py`) is a re-export of the standalone `attainable-information` package at https://github.com/pachterlab/attainable_information (local checkout: `~/Desktop/attainable-information`), vendored here as a pinned snapshot in `attainable_information/` (commit in `attainable_information/UPSTREAM.txt`); make estimator changes upstream and pull them in with `scripts/sync_attainable_information.sh`, never edit the snapshot directly
+- `reproduce.sh`, `scripts/render_submission_figures.py`, `scripts/paper_numbers.py` — regenerate the manuscript's figures from the saved JSON and audit every quoted number; keep `paper_numbers.py` in step with the manuscript text
 - `notebooks/` — the companion notebook `radiogenomic_recoverability.ipynb` that produces the per-cohort figures, and `notebooks/figures/` holding every generated figure and `stats.json` that `main.tex` includes or quotes (tracked in git)
 - `scripts/` — the data-processing pipeline named in the manuscript and the scripts that produce the attainable-information figures (see README.md for the run order)
 - `data/` — datasets (not committed to git)

@@ -1,8 +1,44 @@
 # attainable_information_figures
 
-Analysis code, figures, and manuscript source for "Image-Identifiable Genomic Subspaces: A Linear-Gaussian Model of Radiogenomic Recoverability". The estimator itself lives in the standalone [attainable-information](https://github.com/pachterlab/attainable_information) package; this repository holds the cohort pipeline, the scripts that produce every figure and number in `main.tex`, the generated figures under `notebooks/figures/`, and the Lean proofs in `rgit_lean/`.
+Analysis code, figures, and manuscript source for "Image-Identifiable Genomic Subspaces: A Linear-Gaussian Model of Radiogenomic Recoverability". The estimator is developed in the standalone [attainable-information](https://github.com/pachterlab/attainable_information) package and included here as a pinned snapshot (`attainable_information/`, see `attainable_information/UPSTREAM.txt`); this repository holds the cohort pipeline, the scripts that produce every figure and number in the manuscript, the saved results and generated figures under `notebooks/figures/`, and the Lean proofs in `rgit_lean/`.
 
 A statistical analysis framework for characterizing fundamental information-theoretic limits on the relationship between radiology imaging phenotypes and genomic data.
+
+## Reproducing the manuscript's figures and numbers
+
+Every figure and every number in the manuscript is produced from the saved
+result JSON under `notebooks/figures/` (tracked in git), so the figures and the
+audit of the quoted numbers need no cohort data:
+
+```bash
+pip install -e .                 # see "Setup" for exact versions
+./reproduce.sh                   # redraw every figure from the saved JSON -> paper_figures/
+./reproduce.sh --check           # ... and verify every number quoted in the manuscript
+./reproduce.sh --full            # recompute every result JSON from the processed
+                                 # cohort matrices in data/ first (hours, CPU only)
+```
+
+| Manuscript | `paper_figures/` | Drawn by | Saved source (`notebooks/figures/`) and the script that computes it |
+|---|---|---|---|
+| Figure 1 | `radiology_bound_stress_test.pdf` | `scripts/render_submission_figures.py` | `bound_stress_test.json` (`scripts/bound_stress_test.py`) |
+| Figure 2 | `radiology_target_classes.pdf` | `scripts/render_submission_figures.py` | `kirc_target_classes.json` (`scripts/kirc_target_classes.py`) |
+| Figure 3 | `kirc_representations.pdf` | `scripts/kirc_target_classes_figure.py` | `kirc_representations/summary.json` (`scripts/build_kirc_representation_notebook.py` + notebook) |
+| Figure 4 | `adni_deconfound.pdf` | `scripts/deconfound_figure.py adni` | `adni/gene_expression/fastsurfer/stats.json` (`rgit-recoverability`, see "Reproducing the analysis without the notebook") |
+| Figure S1 | `sim_attainable_bound.pdf` | `scripts/attainable_bound_simulation.py --replot` | `synthetic/attainable_bound.json` (same script without `--replot`) |
+| Figure S2 | `radiology_per_gene_auc_sweep.pdf` | `scripts/render_submission_figures.py` | `per_gene_auc_sweep.json` (`scripts/per_gene_auc_sweep.py`) |
+| Figure S3 | `kirc_anchor_saturation.pdf` | `scripts/anchor_gene_saturation.py --replot kirc` | `anchor_saturation.json` (same script without `--replot`) |
+| Tables 1--3, S1, Results, legends | `scripts/paper_numbers.py --check` | -- | `attainable_summary.json`, `shape_sensitivity.json`, `kirc_target_classes.json`, `kirc_representations/summary.json`, `anchor_saturation.json`, `per_gene_auc_sweep.json`, `bound_stress_test.json`, `cohort_demographics.json`, cohort `stats.json` |
+
+`scripts/paper_numbers.py` lists each quoted quantity with the JSON key it comes
+from and exits non-zero if any disagrees with the manuscript at its rounding.
+`scripts/cohort_demographics.py` (Table 1) and
+`scripts/nsclc_tranche_heterogeneity.py` (the NSCLC release-tranche comparison)
+need `data/`; their outputs are saved as JSON like everything else.
+
+Exact software versions used for the reported results are in
+`requirements-lock.txt` (Python 3.10.20). The Lean proofs are checked with
+`cd rgit_lean && ./check.sh cache && ./check.sh` (Lean 4.30.0, Mathlib pinned in
+`lake-manifest.json`), and the estimator's own tests with `pytest tests/`.
 
 ## Overview
 
@@ -41,7 +77,7 @@ The analysis draws on:
 
 ## The attainable-information ceiling
 
-The estimator and bounds are packaged separately as [attainable-information](https://github.com/pachterlab/attainable_information); `rgit.model` and `rgit.bounds` re-export it.
+The estimator and bounds are developed separately as [attainable-information](https://github.com/pachterlab/attainable_information) and vendored here as a pinned snapshot (`attainable_information/`, refreshed with `scripts/sync_attainable_information.sh`); `rgit.model` and `rgit.bounds` re-export it.
 
 The headline deliverable is an **upper bound on how much genomic information any
 model trained on `n` patients can extract from imaging** — not the
@@ -134,20 +170,26 @@ python scripts/kirc_target_classes.py                                           
 python scripts/kirc_target_classes_figure.py                                      # -> kirc_target_classes.pdf, kirc_representations.pdf, kirc_target_classes_table.tex
 ```
 
-Run 2–4 before 5; step 5 reads their JSON outputs (3b requires 3a; 3c requires both).
+Run 2–4b before 5; step 5 reads their JSON outputs (3b requires 3a; 3c requires
+both), and 4c reads step 5's `attainable_summary.json`, so run 4c after 5.
+`./reproduce.sh --full` runs everything in the right order.
 
 ## Setup
 
 ```bash
 conda create -n rgit -y python=3.10 && conda activate rgit
-pip install -e .[processing,notebooks,dev]
+pip install -r requirements-lock.txt   # optional: the exact versions used for the manuscript
+pip install -e .[notebooks,dev]         # add [processing] for the imaging/genomics pipelines
 ```
 
-Python 3.10+ is recommended. Dependencies are declared in `pyproject.toml`.
+`pip install -e .` installs both `rgit` and the vendored `attainable_information`
+snapshot, so no other repository is needed to reproduce the figures. Python 3.10+
+is required. Dependencies are declared in `pyproject.toml`; `requirements-lock.txt`
+records the exact versions the reported results were produced with.
 
 ## Checking math
-``bash
-cd rgit_lean && ./check.sh
+```bash
+cd rgit_lean && ./check.sh cache && ./check.sh
 ```
 
 ## Usage

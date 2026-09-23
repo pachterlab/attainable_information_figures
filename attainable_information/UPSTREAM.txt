@@ -1,0 +1,5 @@
+Pinned snapshot of the attainable-information package.
+Upstream: https://github.com/pachterlab/attainable_information
+Commit:   4eb3d28a98b56baaba3d98f3cff70cd3f75e7f31
+Version:  0.1.0
+Refresh with scripts/sync_attainable_information.sh <path-to-upstream-checkout>

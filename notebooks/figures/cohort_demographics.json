@@ -1,0 +1,98 @@
+{
+  "kirc": {
+    "n": 190,
+    "n_female": 65,
+    "n_male": 125,
+    "n_age_missing": 0,
+    "age": {
+      "n": 190,
+      "mean": 59.86842105263158,
+      "sd": 12.181543530470169,
+      "min": 26.0,
+      "max": 88.0
+    },
+    "age_female": {
+      "n": 65,
+      "mean": 62.86153846153846,
+      "sd": 11.549995837495088,
+      "min": 39.0,
+      "max": 88.0
+    },
+    "age_male": {
+      "n": 125,
+      "mean": 58.312,
+      "sd": 12.25496344475405,
+      "min": 26.0,
+      "max": 84.0
+    },
+    "age_definition": "age at index (clinical_tcga.tsv)"
+  },
+  "nsclc": {
+    "n": 129,
+    "n_female": 34,
+    "n_male": 95,
+    "n_age_missing": 0,
+    "age": {
+      "n": 129,
+      "mean": 68.10077519379846,
+      "sd": 9.15990324836348,
+      "min": 42.0,
+      "max": 84.0
+    },
+    "age_female": {
+      "n": 34,
+      "mean": 64.44117647058823,
+      "sd": 11.641595164233914,
+      "min": 46.0,
+      "max": 84.0
+    },
+    "age_male": {
+      "n": 95,
+      "mean": 69.41052631578947,
+      "sd": 7.752137298756274,
+      "min": 42.0,
+      "max": 84.0
+    },
+    "n_sex_missing": 0,
+    "age_definition": "patient age at CT study (TCIA digest)",
+    "release_tranche": {
+      "rule": "patient number R01-128 and above is the later release",
+      "n_early": 98,
+      "n_late": 31
+    }
+  },
+  "adni": {
+    "n": 702,
+    "n_female": 325,
+    "n_male": 377,
+    "n_age_missing": 0,
+    "age": {
+      "n": 702,
+      "mean": 74.50854700854701,
+      "sd": 7.6644545844410645,
+      "min": 55.0,
+      "max": 94.0
+    },
+    "age_female": {
+      "n": 325,
+      "mean": 73.59384615384616,
+      "sd": 8.01318121125477,
+      "min": 55.0,
+      "max": 94.0
+    },
+    "age_male": {
+      "n": 377,
+      "mean": 75.29708222811671,
+      "sd": 7.269274962831013,
+      "min": 56.0,
+      "max": 91.0
+    },
+    "n_sex_missing": 0,
+    "age_definition": "expression collection year minus birth year (approximate)",
+    "collection_years": [
+      2010,
+      2013
+    ]
+  },
+  "n_total": 1021
+}

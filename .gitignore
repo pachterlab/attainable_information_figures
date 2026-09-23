@@ -175,3 +175,5 @@ slides.*
 notebooks/intro_data
 notebooks/intro_out
 rgit_output
+# assembled by reproduce.sh (copies of notebooks/figures)
+paper_figures/
